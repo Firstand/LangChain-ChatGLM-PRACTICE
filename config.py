@@ -5,8 +5,8 @@ import torch.backends.mps
 # Large Language Model (LLM) 大规模语言模型字典
 llm_model_dict = {
     "chatglm": {
-        "ChatGLM-6B": "..\\models_data\\chatglm2-6b",
-        "ChatGLM-6B-int4": "..\\models_data\\chatglm-6b-int4",
+        "ChatGLM-6B": "../models_data/chatglm2-6b",
+        "ChatGLM-6B-int4": "../models_data/chatglm-6b-int4",
         "ChatGLM-6B-int8": "THUDM/chatglm-6b-int8",
         "ChatGLM-6b-int4-qe": "THUDM/chatglm-6b-int4-qe"
     },
@@ -24,7 +24,7 @@ embedding_model_dict = {
     "ernie-base": "nghuyong/ernie-3.0-base-zh",
     "ernie-medium": "nghuyong/ernie-3.0-medium-zh",
     "ernie-xbase": "nghuyong/ernie-3.0-xbase-zh",
-    "text2vec-base-chinese": "GanymedeNil/text2vec-base-chinese",
+    "text2vec-base-chinese": "../models_data/GanymedeNil/text2vec-base-chinese/GanymedeNil_text2vec-base-chinese",
     'simbert-base-chinese': 'WangZeJun/simbert-base-chinese',
     'paraphrase-multilingual-MiniLM-L12-v2': "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 }
