@@ -5,8 +5,8 @@ import torch.backends.mps
 # Large Language Model (LLM) 大规模语言模型字典
 llm_model_dict = {
     "chatglm": {
-        "ChatGLM-6B": "../models_data/chatglm2-6b",
-        "ChatGLM-6B-int4": "../models_data/chatglm-6b-int4",
+        "ChatGLM2-6B": "../models_data/chatglm2-6b",
+        "ChatGLM2-6B-int4": "../models_data/chatglm2-6b-int4",
         "ChatGLM-6B-int8": "THUDM/chatglm-6b-int8",
         "ChatGLM-6b-int4-qe": "THUDM/chatglm-6b-int4-qe"
     },
@@ -30,7 +30,7 @@ embedding_model_dict = {
 }
 
 # 指定初始化Large Language Model (LLM) 大规模语言模型
-init_llm = "ChatGLM-6B"
+init_llm = "ChatGLM2-6B-int4"
 
 # 指定初始化Large Language Model (LLM) 大规模语言模型类型
 init_llm_type = "chatglm"

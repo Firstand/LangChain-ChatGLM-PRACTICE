@@ -3,3 +3,6 @@ fschat==0.2.3
 gradio==3.23
 langchain==0.0.147
 transformers>=4.28.0
+sentence-transformers
+faiss-cpu
+unstructured[local-inference]
