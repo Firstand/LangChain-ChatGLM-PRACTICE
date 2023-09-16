@@ -1,14 +1,18 @@
+import os
+
+import nltk
 from langchain import PromptTemplate
 from langchain.chains import RetrievalQA
 from langchain.document_loaders import UnstructuredFileLoader
-from langchain.vectorstores import FAISS
-from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 from langchain.embeddings.base import Embeddings
+from langchain.embeddings.huggingface import HuggingFaceEmbeddings
+from langchain.vectorstores import FAISS
+
+import config
 from chatllm import ChatLLM
 from chinese_text_splitter import ChineseTextSplitter
 
-import os
-import config
+nltk.data.path = [config.nltk_data_path] + nltk.data.path
 
 
 def load_file(filepath):

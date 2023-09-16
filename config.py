@@ -42,6 +42,9 @@ init_embedding_model = "text2vec-base-chinese"
 # 模型缓存路径
 model_cache_path = os.path.join(os.path.dirname(__file__), '..\\models_data')
 
+# nltk 模型存储路径
+nltk_data_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "nltk_data")
+
 # 驱动配置
 # CUDA是NVIDIA开发的并行计算平台和应用程序接口模型，允许开发者使用NVIDIA的GPU进行计算。
 # MPS是Apple（苹果）开发的Metal Performance Shaders，用于进行高性能图形和数据并行计算。

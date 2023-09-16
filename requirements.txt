@@ -1,8 +1,10 @@
 accelerate==0.21.0
 fschat==0.2.3
 gradio==3.23
-langchain==0.0.147
+langchain~=0.0.287
 transformers>=4.28.0
 sentence-transformers
 faiss-cpu
 unstructured[local-inference]
+torch~=2.0.1+cu118
+nltk~=3.8.1
