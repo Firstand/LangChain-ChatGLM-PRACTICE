@@ -1,18 +1,17 @@
 import os
-
 import nltk
+import config
+
 from langchain import PromptTemplate
 from langchain.chains import RetrievalQA
 from langchain.document_loaders import UnstructuredFileLoader
 from langchain.embeddings.base import Embeddings
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
-
-import config
 from chatllm import ChatLLM
 from chinese_text_splitter import ChineseTextSplitter
 
-nltk.data.path = [config.nltk_data_path] + nltk.data.path
+nltk.data.path = [config.nltk_data_path]
 
 
 def load_file(filepath):
@@ -28,6 +27,14 @@ def load_file(filepath):
         text_splitter = ChineseTextSplitter(pdf=False)
         docs = loader.load_and_split(text_splitter=text_splitter)
     return docs
+
+
+def get_kb_path(knowledge_base_name: str):
+    return os.path.join(config.kb_root_path, knowledge_base_name)
+
+
+def get_vs_path(knowledge_base_name: str):
+    return os.path.join(get_kb_path(knowledge_base_name), "vector_store")
 
 
 class KnowledgeBasedChatLLM:
@@ -50,7 +57,7 @@ class KnowledgeBasedChatLLM:
     # 历史信息长度
     history_len: int = None
     # 大规模语言模型
-    llm: ChatLLM = None
+    # llm: ChatLLM = None
     # 嵌入式模型
     embeddings: Embeddings = None
 
@@ -70,11 +77,12 @@ class KnowledgeBasedChatLLM:
 
     def init_model_config(self):
         # 初始化嵌入式模型
-        # model_name 模型名称
-        # cache_folder 模型的缓存位置
-        self.embeddings = HuggingFaceEmbeddings(model_name=self.embedding_model_name,
-                                                cache_folder=os.path.join(self.model_cache_path,
-                                                                          self.embedding_model_name))
+        # model_name 模型名称/本地模型的绝对路径
+        # cache_folder 去网站下载模型的缓存位置，目前已下载所以不加这个参数
+        config.logger.info("开始初始化嵌入式模型！")
+        self.embeddings = HuggingFaceEmbeddings(
+            model_name=os.path.join(self.model_cache_path, self.embedding_model_name))
+        config.logger.info("初始化嵌入式模型完成！")
         self.llm = ChatLLM()
         self.llm.model_type = self.llm_model_type
         self.llm.model_name_or_path = self.llm_model_name
@@ -83,11 +91,19 @@ class KnowledgeBasedChatLLM:
     def init_knowledge_vector_store(self, filepath):
         # 初始化知识向量存储
         # 加载并解析文件，返回文件内容
+        config.logger.info("开始加载并解析文件，返回文件内容！")
         docs = load_file(filepath)
+        config.logger.info("加载并解析文件，返回文件内容完成！")
+
+        config.logger.info("开始将文件内容向量化！")
         # 将文件内容向量化（通过对输入的数据（如文档、图像等）进行向量化（或称为嵌入）处理，将高维数据转化为低维向量，从而能够更高效地进行相似性搜索）
         vector_store = FAISS.from_documents(docs, self.embeddings)
+        config.logger.info("文件内容向量化完成！")
+
         # 保存
-        vector_store.save_local('file_index')
+        config.logger.info("开始将向量数据保存到磁盘！")
+        vector_store.save_local(get_vs_path("zhangyu_knowledge_base"))
+        config.logger.info("向量数据保存到磁盘完成！")
 
     def get_knowledge_based_answer(self,
                                    query,
@@ -126,7 +142,7 @@ class KnowledgeBasedChatLLM:
         self.llm.history = history[-self.history_len:] if self.history_len > 0 else []
         # 加载向量文件
         try:
-            vector_store = FAISS.load_local('file_index', self.embeddings)
+            vector_store = FAISS.load_local(get_vs_path("zhangyu_knowledge_base"), self.embeddings)
         except RuntimeError:
             return {'result': '请先上传本地知识库并点击【知识库文件向量化】后进行提问！'}
 

@@ -90,7 +90,7 @@ if __name__ == '__main__':
             # 占整行的多少
             with gr.Column(scale=4):
                 # 聊天框
-                chat_bot = gr.Chatbot(label='ChatLLM').style(height=750)
+                chat_bot = gr.Chatbot(label='ChatLLM', height=750)
                 inp = gr.Textbox(placeholder="请输入您的问题！", label="提问")
                 with gr.Row():
                     clear_history = gr.Button("🧹 清除历史对话")

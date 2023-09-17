@@ -1,6 +1,21 @@
+import logging
 import os
 
 import torch.backends.mps
+
+# 日志格式
+log_format = "%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s"
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+logging.basicConfig(format=log_format)
+
+# 日志存储路径
+log_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "logs")
+if not os.path.exists(log_path):
+    os.mkdir(log_path)
+
+# 知识库默认存储路径
+kb_root_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "knowledge_base")
 
 # Large Language Model (LLM) 大规模语言模型字典
 llm_model_dict = {
@@ -24,7 +39,7 @@ embedding_model_dict = {
     "ernie-base": "nghuyong/ernie-3.0-base-zh",
     "ernie-medium": "nghuyong/ernie-3.0-medium-zh",
     "ernie-xbase": "nghuyong/ernie-3.0-xbase-zh",
-    "text2vec-base-chinese": "../models_data/GanymedeNil/text2vec-base-chinese/GanymedeNil_text2vec-base-chinese",
+    "text2vec-base-chinese": "GanymedeNil/text2vec-base-chinese/GanymedeNil_text2vec-base-chinese",
     'simbert-base-chinese': 'WangZeJun/simbert-base-chinese',
     'paraphrase-multilingual-MiniLM-L12-v2': "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 }
@@ -40,10 +55,10 @@ init_embedding_model = "text2vec-base-chinese"
 
 # os.path.dirname(__file__)获取python所在目录然后组合相对路径构成最终模型的缓存路径
 # 模型缓存路径
-model_cache_path = os.path.join(os.path.dirname(__file__), '..\\models_data')
+model_cache_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'models_data/')
 
 # nltk 模型存储路径
-nltk_data_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "nltk_data")
+nltk_data_path = os.path.join(os.path.dirname(__file__), "nltk_data")
 
 # 驱动配置
 # CUDA是NVIDIA开发的并行计算平台和应用程序接口模型，允许开发者使用NVIDIA的GPU进行计算。
