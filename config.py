@@ -1,18 +1,23 @@
 import logging
 import os
-
+import datetime
 import torch.backends.mps
+
+# 获取当前日期，格式化日期为字符串，例如：2023-09-23
+date_str = datetime.date.today().strftime("%Y-%m-%d")
+
+# 构建日志文件名
+log_filename = f"chat_llm_log_{date_str}.log"
+
+# 日志存储路径
+log_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "logs/")
+if not os.path.exists(log_path):
+    os.mkdir(log_path)
 
 # 日志格式
 log_format = "%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s"
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-logging.basicConfig(format=log_format)
-
-# 日志存储路径
-log_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "logs")
-if not os.path.exists(log_path):
-    os.mkdir(log_path)
+logging.basicConfig(format=log_format, level=logging.INFO, filename=log_path + log_filename)
+logger = logging.getLogger(__name__)
 
 # 知识库默认存储路径
 kb_root_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "knowledge_base")
@@ -67,5 +72,3 @@ nltk_data_path = os.path.join(os.path.dirname(__file__), "nltk_data")
 embedding_device = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
 # 大规模语言模型驱动
 llm_device = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
-# 可以获取的CUDA设备（即GPU）的数量
-num_gpus = torch.cuda.device_count()

@@ -8,7 +8,7 @@ from langchain.document_loaders import UnstructuredFileLoader
 from langchain.embeddings.base import Embeddings
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
-from chatllm import ChatLLM
+from chat_llm import ChatLLM
 from chinese_text_splitter import ChineseTextSplitter
 
 nltk.data.path = [config.nltk_data_path]
@@ -65,15 +65,13 @@ class KnowledgeBasedChatLLM:
                  llm_model_name: str = config.llm_model_dict[config.init_llm_type][config.init_llm],
                  embedding_model_name: str = config.embedding_model_dict[config.init_embedding_model],
                  model_cache_path: str = config.model_cache_path,
-                 llm_device: str = config.llm_device,
-                 num_gpus: int = config.num_gpus):
+                 llm_device: str = config.llm_device):
         # 初始化参数
         self.model_cache_path = model_cache_path
         self.llm_model_type = llm_model_type
         self.llm_model_name = llm_model_name
         self.embedding_model_name = embedding_model_name
         self.llm_device = llm_device
-        self.num_gpus = num_gpus
 
     def init_model_config(self):
         # 初始化嵌入式模型

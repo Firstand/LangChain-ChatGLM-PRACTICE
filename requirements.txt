@@ -3,6 +3,8 @@ langchain~=0.0.287
 sentence-transformers
 unstructured
 torch~=2.0.1
-faiss-gpu
-# faiss-cpu
+# faiss-gpu
+faiss-cpu
 fschat==0.2.3
+transformers~=4.33.2
+nltk~=3.8.1
